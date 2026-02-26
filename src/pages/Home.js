@@ -40,7 +40,7 @@ function VideoHero() {
         }}
       >
         {/* Multiple sources for broadest browser support */}
-        <source src="hero-video.mp4" type="video/mp4" />
+        <source src={process.env.PUBLIC_URL + "/hero-video.mp4"} type="video/mp4" />
         <source src="https://cdn.coverr.co/videos/coverr-man-walking-in-a-city-5569/1080p.mp4" type="video/mp4" />
         {/* Fallback: if browser can't play video, poster image shows */}
       </video>
