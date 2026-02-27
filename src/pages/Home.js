@@ -39,10 +39,8 @@ function VideoHero() {
           /* On narrow/portrait screens objectFit cover keeps the video full */
         }}
       >
-        {/* Multiple sources for broadest browser support */}
         <source src="https://image2url.com/r2/default/videos/1772114975196-336fcc5e-ff17-498e-bced-84053f48257d.mp4" type="video/mp4" />
         <source src="https://cdn.coverr.co/videos/coverr-man-walking-in-a-city-5569/1080p.mp4" type="video/mp4" />
-        {/* Fallback: if browser can't play video, poster image shows */}
       </video>
 
       {/* ── DARK GRADIENT OVERLAY ── makes text readable on any video frame */}

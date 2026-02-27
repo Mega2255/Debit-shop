@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
@@ -31,6 +31,7 @@ function Layout({ children, noFooter }) {
 
 export default function App() {
   return (
+    <BrowserRouter>
       <AuthProvider>
         <CartProvider>
           <Toaster
@@ -75,5 +76,6 @@ export default function App() {
           </Routes>
         </CartProvider>
       </AuthProvider>
+    </BrowserRouter>
   );
 }
