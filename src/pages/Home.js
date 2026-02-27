@@ -27,7 +27,7 @@ function VideoHero() {
         loop
         playsInline
         preload="auto"
-        poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80"
+        poster="https://image2url.com/r2/default/images/1772161242503-bb443e1d-ea20-49f0-9606-f81a342be60b.jpeg"
         style={{
           position: 'absolute',
           inset: 0,
