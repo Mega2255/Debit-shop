@@ -36,6 +36,7 @@ export default function ProductCard({ product }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ position: 'relative', background: '#fff', cursor: 'pointer' }}
+      className="product-card"
     >
       <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
         {/* Image container */}
@@ -141,3 +142,10 @@ export default function ProductCard({ product }) {
     </div>
   );
 }
+
+export const productCardStyles = `
+  @media (max-width: 640px) {
+    .product-card { font-size: 13px; }
+    .product-card img { object-fit: cover; }
+  }
+`;

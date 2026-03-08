@@ -657,11 +657,72 @@ export default function ProductDetail() {
       <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 40px 80px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'start' }} className="product-grid">
         
         {/* Images */}
-        <div>
-          {/* Main image */}
+        <div className="product-images-col">
+          {/* Main image with slide arrows */}
           <div style={{ position: 'relative', paddingBottom: '125%', overflow: 'hidden', background: '#f5f5f5', marginBottom: 8 }}>
-            <img src={images[selectedImg] || 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=800&q=80'} alt={product.name}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src={images[selectedImg] || 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=800&q=80'}
+              alt={product.name}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.3s ease' }}
+            />
+
+            {/* Image label badge */}
+            {images.length > 1 && (
+              <div style={{
+                position: 'absolute', top: 12, left: 12,
+                background: 'rgba(0,0,0,0.6)', color: '#fff',
+                fontSize: 9, letterSpacing: 2, textTransform: 'uppercase',
+                padding: '4px 10px', fontWeight: 700,
+              }}>
+                {selectedImg === 0 ? 'Front' : selectedImg === 1 ? 'Back' : `View ${selectedImg + 1}`}
+              </div>
+            )}
+
+            {/* Prev arrow */}
+            {images.length > 1 && (
+              <button onClick={() => setSelectedImg(i => (i - 1 + images.length) % images.length)} style={{
+                position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)',
+                background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff',
+                width: 36, height: 36, borderRadius: '50%', fontSize: 16,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s', zIndex: 2,
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = '#ea580c'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.5)'}
+              >‹</button>
+            )}
+
+            {/* Next arrow */}
+            {images.length > 1 && (
+              <button onClick={() => setSelectedImg(i => (i + 1) % images.length)} style={{
+                position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
+                background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff',
+                width: 36, height: 36, borderRadius: '50%', fontSize: 16,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s', zIndex: 2,
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = '#ea580c'}
+                onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.5)'}
+              >›</button>
+            )}
+
+            {/* Dot indicators */}
+            {images.length > 1 && (
+              <div style={{
+                position: 'absolute', bottom: 52, left: '50%', transform: 'translateX(-50%)',
+                display: 'flex', gap: 6, zIndex: 2,
+              }}>
+                {images.map((_, i) => (
+                  <button key={i} onClick={() => setSelectedImg(i)} style={{
+                    width: selectedImg === i ? 20 : 7, height: 7,
+                    borderRadius: 4, border: 'none',
+                    background: selectedImg === i ? '#ea580c' : 'rgba(255,255,255,0.6)',
+                    cursor: 'pointer', transition: 'all 0.3s', padding: 0,
+                  }} />
+                ))}
+              </div>
+            )}
+
             {/* Virtual Try-On button overlay */}
             <button
               onClick={() => setShowTryOn(true)}
@@ -671,7 +732,7 @@ export default function ProductDetail() {
                 color: '#fff', border: '1px solid rgba(255,255,255,0.2)',
                 padding: '10px 20px', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase',
                 fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8,
-                transition: 'all 0.2s', whiteSpace: 'nowrap',
+                transition: 'all 0.2s', whiteSpace: 'nowrap', zIndex: 2,
               }}
               onMouseEnter={e => { e.currentTarget.style.background = '#ea580c'; e.currentTarget.style.borderColor = '#ea580c'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.75)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
@@ -683,16 +744,29 @@ export default function ProductDetail() {
               ✦ Virtual Try-On
             </button>
           </div>
+
           {/* Thumbnails */}
           {images.length > 1 && (
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {images.map((img, i) => (
                 <div key={i} onClick={() => setSelectedImg(i)} style={{
-                  width: 72, height: 88, overflow: 'hidden', cursor: 'pointer', background: '#f5f5f5',
+                  flex: '0 0 auto',
+                  width: 'calc(33.33% - 6px)',
+                  aspectRatio: '4/5',
+                  overflow: 'hidden', cursor: 'pointer', background: '#f5f5f5',
                   outline: selectedImg === i ? '2px solid #ea580c' : '2px solid transparent',
-                  outlineOffset: 2, transition: 'outline 0.15s',
+                  outlineOffset: 2, transition: 'outline 0.15s', position: 'relative',
                 }}>
-                  <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={img} alt={i === 0 ? 'Front' : i === 1 ? 'Back' : `View ${i+1}`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0,
+                    background: 'rgba(0,0,0,0.45)', color: '#fff',
+                    fontSize: 8, letterSpacing: 1.5, textTransform: 'uppercase',
+                    textAlign: 'center', padding: '3px 0', fontWeight: 700,
+                  }}>
+                    {i === 0 ? 'Front' : i === 1 ? 'Back' : `View ${i+1}`}
+                  </div>
                 </div>
               ))}
             </div>
@@ -855,6 +929,7 @@ export default function ProductDetail() {
       <style>{`
         @media (max-width: 768px) {
           .product-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .product-images-col { width: 100%; }
         }
         @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>

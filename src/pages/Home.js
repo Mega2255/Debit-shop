@@ -27,7 +27,7 @@ function VideoHero() {
         loop
         playsInline
         preload="auto"
-        poster="https://image2url.com/r2/default/images/1772161242503-bb443e1d-ea20-49f0-9606-f81a342be60b.jpeg"
+        poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80"
         style={{
           position: 'absolute',
           inset: 0,
@@ -137,14 +137,12 @@ function VideoHero() {
 // Exactly like ash-luxe: section title, sub-tabs (T-Shirts, Pants, Jackets…), product grid, View All
 function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580c' }) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.key || 'all');
+  const [page, setPage] = useState(1);
+  const PER_PAGE = 8;
 
-  // Matches a tab key like "belt" or "t-shirt" against Firebase category "Men - Belts" / "Men - T-Shirts"
   const tabMatches = (p, key) => {
     const cat = (p.category || '').toLowerCase();
     const k = key.toLowerCase();
-    // Exact subcategory match: strip gender prefix and compare the rest
-    // e.g. key "belt" should match "men - belts", "women - belts"
-    // e.g. key "t-shirt" should match "men - t-shirts"
     const afterDash = cat.includes(' - ') ? cat.split(' - ').slice(1).join(' - ') : cat;
     return afterDash.includes(k) || cat.includes(k);
   };
@@ -153,14 +151,27 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
     ? allProducts
     : allProducts.filter(p => tabMatches(p, activeTab));
 
-  const display = filtered.slice(0, 8);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+  const display = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+  // Reset to page 1 when tab changes
+  React.useEffect(() => { setPage(1); }, [activeTab]);
+
+  // Build page numbers: show max 5 page buttons
+  const getPageNums = () => {
+    if (totalPages <= 5) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    if (currentPage <= 3) return [1, 2, 3, 4, 5];
+    if (currentPage >= totalPages - 2) return [totalPages-4, totalPages-3, totalPages-2, totalPages-1, totalPages];
+    return [currentPage-2, currentPage-1, currentPage, currentPage+1, currentPage+2];
+  };
 
   return (
-    <section style={{ padding: '64px 40px', maxWidth: 1400, margin: '0 auto' }}>
+    <section style={{ padding: '64px 20px', maxWidth: 1400, margin: '0 auto' }}>
       {/* Section header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, letterSpacing: 1, color: '#ea580c' }}>{title}</h2>
-        <Link to={viewAllPath} style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: '#111', borderBottom: '1px solid #111', paddingBottom: 2, transition: 'color 0.2s, border-color 0.2s' }}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, flexWrap: 'wrap', gap: 16, padding: '0 20px' }}>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 300, letterSpacing: 1, color: '#ea580c' }}>{title}</h2>
+        <Link to={viewAllPath} style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: '#111', borderBottom: '1px solid #111', paddingBottom: 2 }}
           onMouseEnter={e => { e.currentTarget.style.color = accent; e.currentTarget.style.borderColor = accent; }}
           onMouseLeave={e => { e.currentTarget.style.color = '#111'; e.currentTarget.style.borderColor = '#111'; }}
         >View All</Link>
@@ -168,11 +179,11 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
 
       {/* Sub-category tabs */}
       {tabs.length > 1 && (
-        <div style={{ display: 'flex', gap: 0, marginBottom: 36, borderBottom: '1px solid #e8e8e8', overflowX: 'auto', scrollbarWidth: 'none' }}>
+        <div style={{ display: 'flex', gap: 0, marginBottom: 36, borderBottom: '1px solid #e8e8e8', overflowX: 'auto', scrollbarWidth: 'none', padding: '0 20px' }}>
           {tabs.map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-              padding: '10px 20px', background: 'none', border: 'none',
-              fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600,
+              padding: '10px 16px', background: 'none', border: 'none',
+              fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600,
               color: activeTab === tab.key ? accent : '#888',
               borderBottom: `2px solid ${activeTab === tab.key ? accent : 'transparent'}`,
               cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap', marginBottom: -1,
@@ -181,24 +192,72 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
         </div>
       )}
 
-      {/* Product grid */}
+      {/* Product grid — 2 cols on mobile, 4 on desktop */}
       {display.length === 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', background: '#fafafa', border: '1px dashed #e8e8e8' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', background: '#fafafa', border: '1px dashed #e8e8e8', margin: '0 20px' }}>
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 300, color: '#ccc', marginBottom: 8 }}>
             {tabs.find(t => t.key === activeTab)?.label || 'Products'}
           </p>
           <p style={{ fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', color: '#ea580c', fontWeight: 600 }}>Coming Soon!</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '32px 20px' }}>
+        <div className="home-product-grid">
           {display.map(p => <ProductCard key={p.id} product={p} />)}
         </div>
       )}
 
+      {/* Pagination — Prev, 1 2 3 …, Next */}
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 40, flexWrap: 'wrap' }}>
+          {/* Prev */}
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            style={{
+              padding: '8px 16px', border: '1px solid #e8e8e8', background: '#fff',
+              fontSize: 11, letterSpacing: 1, textTransform: 'uppercase', fontWeight: 600,
+              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+              color: currentPage === 1 ? '#ccc' : '#111',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={e => { if (currentPage !== 1) { e.currentTarget.style.background = accent; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = accent; } }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = currentPage === 1 ? '#ccc' : '#111'; e.currentTarget.style.borderColor = '#e8e8e8'; }}
+          >← Prev</button>
+
+          {/* Page numbers */}
+          {getPageNums().map(n => (
+            <button key={n} onClick={() => setPage(n)} style={{
+              width: 36, height: 36, border: `1px solid ${currentPage === n ? accent : '#e8e8e8'}`,
+              background: currentPage === n ? accent : '#fff',
+              color: currentPage === n ? '#fff' : '#111',
+              fontSize: 12, fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s',
+            }}
+              onMouseEnter={e => { if (currentPage !== n) { e.currentTarget.style.borderColor = accent; e.currentTarget.style.color = accent; } }}
+              onMouseLeave={e => { if (currentPage !== n) { e.currentTarget.style.borderColor = '#e8e8e8'; e.currentTarget.style.color = '#111'; } }}
+            >{n}</button>
+          ))}
+
+          {/* Next */}
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            style={{
+              padding: '8px 16px', border: '1px solid #e8e8e8', background: '#fff',
+              fontSize: 11, letterSpacing: 1, textTransform: 'uppercase', fontWeight: 600,
+              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+              color: currentPage === totalPages ? '#ccc' : '#111',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={e => { if (currentPage !== totalPages) { e.currentTarget.style.background = accent; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = accent; } }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = currentPage === totalPages ? '#ccc' : '#111'; e.currentTarget.style.borderColor = '#e8e8e8'; }}
+          >Next →</button>
+        </div>
+      )}
+
       {/* See more / View all link */}
-      <div style={{ textAlign: 'center', marginTop: 48 }}>
+      <div style={{ textAlign: 'center', marginTop: 32 }}>
         <Link to={viewAllPath} style={{
-          display: 'inline-block', border: '1px solid #111', padding: '13px 48px',
+          display: 'inline-block', border: '1px solid #111', padding: '12px 40px',
           fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', fontWeight: 600,
           color: '#111', transition: 'all 0.25s',
         }}
@@ -206,6 +265,25 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.borderColor = '#111'; }}
         >See More</Link>
       </div>
+
+      <style>{`
+        .home-product-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 32px 16px;
+          padding: 0 20px;
+        }
+        @media (max-width: 1024px) {
+          .home-product-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .home-product-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px 10px;
+            padding: 0 4px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

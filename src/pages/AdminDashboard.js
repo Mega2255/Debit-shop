@@ -166,7 +166,7 @@ export default function AdminDashboard() {
   const [messages, setMessages] = useState([]);
   const [revenue, setRevenue] = useState({});
 
-  const EMPTY_FORM = { name:'', price:'', category:'', description:'', stock:'', isNew:true, imageUrl:'', imageUrl2:'' };
+  const EMPTY_FORM = { name:'', price:'', category:'', description:'', stock:'', isNew:true, imageUrl:'', imageUrl2:'', imageUrl3:'' };
   const [pForm, setPForm] = useState(EMPTY_FORM);
   const [pSizes, setPSizes] = useState([]); // [{ label, chest, length }]
   const [editProd, setEditProd] = useState(null);
@@ -174,6 +174,8 @@ export default function AdminDashboard() {
   const [imgPreview2, setImgPreview2] = useState('');
   const [imgBase64, setImgBase64] = useState('');
   const [imgBase64_2, setImgBase64_2] = useState('');
+  const [imgBase64_3, setImgBase64_3] = useState('');
+  const [imgPreview3, setImgPreview3] = useState('');
   const [saving, setSaving] = useState(false);
   const [userSearch, setUserSearch] = useState('');
   const [selMsg, setSelMsg] = useState(null);
@@ -232,7 +234,8 @@ export default function AdminDashboard() {
     if (file.size > 2 * 1024 * 1024) { toast.error('Image must be under 2MB'); return; }
     const b64 = await fileToBase64(file);
     if (which === 1) { setImgBase64(b64); setImgPreview(b64); }
-    else { setImgBase64_2(b64); setImgPreview2(b64); }
+    else if (which === 2) { setImgBase64_2(b64); setImgPreview2(b64); }
+    else { setImgBase64_3(b64); setImgPreview3(b64); }
   };
 
   const saveProd = async (e) => {
@@ -242,12 +245,14 @@ export default function AdminDashboard() {
     try {
       const img1 = imgBase64 || pForm.imageUrl || editProd?.image || '';
       const img2 = imgBase64_2 || pForm.imageUrl2 || editProd?.image2 || '';
+      const img3 = imgBase64_3 || pForm.imageUrl3 || editProd?.image3 || '';
       const data = {
         ...pForm,
         price: Number(pForm.price),
         stock: pForm.stock !== '' ? Number(pForm.stock) : undefined,
         image: img1,
         image2: img2,
+        image3: img3,
         // Save sizes as array; filter out empty labels
         sizes: pSizes.filter(s => s.label).map(s => ({
           label: s.label,
@@ -257,12 +262,12 @@ export default function AdminDashboard() {
         updatedAt: Date.now(),
         ...(!editProd && { createdAt: Date.now() })
       };
-      delete data.imageUrl; delete data.imageUrl2;
+      delete data.imageUrl; delete data.imageUrl2; delete data.imageUrl3;
       if (editProd) { await set(dbRef(db, `products/${editProd.id}`), data); toast.success('Product updated!'); }
       else { const nr = push(dbRef(db, 'products')); await set(nr, data); toast.success('Product added!'); }
       setPForm(EMPTY_FORM);
       setPSizes([]);
-      setImgBase64(''); setImgBase64_2(''); setImgPreview(''); setImgPreview2('');
+      setImgBase64(''); setImgBase64_2(''); setImgBase64_3(''); setImgPreview(''); setImgPreview2(''); setImgPreview3('');
       setEditProd(null);
     } catch (err) { toast.error('Error: ' + err.message); }
     setSaving(false);
@@ -272,10 +277,10 @@ export default function AdminDashboard() {
 
   const editProdFn = (p) => {
     setEditProd(p);
-    setPForm({ name:p.name, price:p.price, category:p.category, description:p.description||'', stock:p.stock??'', isNew:p.isNew||false, imageUrl:'', imageUrl2:'' });
+    setPForm({ name:p.name, price:p.price, category:p.category, description:p.description||'', stock:p.stock??'', isNew:p.isNew||false, imageUrl:'', imageUrl2:'', imageUrl3:'' });
     setPSizes(p.sizes || []);
-    setImgBase64(''); setImgBase64_2('');
-    setImgPreview(p.image||''); setImgPreview2(p.image2||'');
+    setImgBase64(''); setImgBase64_2(''); setImgBase64_3('');
+    setImgPreview(p.image||''); setImgPreview2(p.image2||''); setImgPreview3(p.image3||'');
     setTab('products'); window.scrollTo(0,0);
   };
 
@@ -418,51 +423,65 @@ export default function AdminDashboard() {
                   <SizeChartManager sizes={pSizes} onChange={setPSizes} />
                 </div>
 
-                {/* Images */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 24px' }} className="img-grid">
-                  {[
-                    { l:'Main Image', urlKey:'imageUrl', which:1, preview:imgPreview },
-                    { l:'Alt / Hover Image', urlKey:'imageUrl2', which:2, preview:imgPreview2 }
-                  ].map((f) => (
-                    <div key={f.which} style={{ marginBottom: 20 }}>
-                      <label style={labelStyle}>{f.l}</label>
-                      <input
-                        type="url"
-                        value={pForm[f.urlKey]}
-                        onChange={e => {
-                          setPForm({...pForm, [f.urlKey]: e.target.value});
-                          if (f.which === 1) { setImgPreview(e.target.value); setImgBase64(''); }
-                          else { setImgPreview2(e.target.value); setImgBase64_2(''); }
-                        }}
-                        placeholder="Paste image URL (https://...)"
-                        style={{ ...inputStyle, marginBottom: 10 }}
-                        onFocus={e => e.target.style.borderColor='#ea580c'}
-                        onBlur={e => e.target.style.borderColor='#ddd'}
-                      />
-                      <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
-                        <div style={{ flex:1, height:1, background:'#eee' }} />
-                        <span style={{ fontSize:10, color:'#bbb', letterSpacing:2, textTransform:'uppercase' }}>or upload file</span>
-                        <div style={{ flex:1, height:1, background:'#eee' }} />
-                      </div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={e => handleImgFile(e, f.which)}
-                        style={{ ...inputStyle, cursor:'pointer', fontSize:12 }}
-                      />
-                      <p style={{ fontSize:10, color:'#bbb', marginTop:4 }}>Max 2MB. Stored directly — no Storage needed.</p>
-                      {f.preview && (
-                        <div style={{ marginTop:10, position:'relative', display:'inline-block' }}>
-                          <img src={f.preview} alt="preview" style={{ width:80, height:100, objectFit:'cover', border:'1px solid #e8e8e8', background:'#f5f5f5' }}
-                            onError={e => e.target.style.display='none'} />
-                          <button type="button" onClick={() => {
-                            if (f.which===1) { setImgPreview(''); setImgBase64(''); setPForm(p=>({...p, imageUrl:''})); }
-                            else { setImgPreview2(''); setImgBase64_2(''); setPForm(p=>({...p, imageUrl2:''})); }
-                          }} style={{ position:'absolute', top:-6, right:-6, width:18, height:18, borderRadius:'50%', background:'#ef4444', border:'none', color:'#fff', fontSize:10, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', lineHeight:1 }}>✕</button>
+                {/* Images — Front / Back / Side */}
+                <div style={{ marginBottom: 8 }}>
+                  <p style={{ fontSize:11, letterSpacing:2, textTransform:'uppercase', fontWeight:700, color:'#555', marginBottom:10, borderBottom:'1px solid #f0f0f0', paddingBottom:10 }}>Product Images</p>
+                  <p style={{ fontSize:11, color:'#aaa', marginBottom:20, lineHeight:1.7 }}>
+                    🟢 <strong>Image 1 = Front</strong> (required) &nbsp;·&nbsp; 🟠 <strong>Image 2 = Back</strong> &nbsp;·&nbsp; 🟣 <strong>Image 3 = Side / Detail</strong> (optional)
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0 16px' }} className="img-grid">
+                    {[
+                      { l:'Image 1 — Front', urlKey:'imageUrl',  which:1, preview:imgPreview,  badge:'Front', color:'#16a34a' },
+                      { l:'Image 2 — Back',  urlKey:'imageUrl2', which:2, preview:imgPreview2, badge:'Back',  color:'#ea580c' },
+                      { l:'Image 3 — Side',  urlKey:'imageUrl3', which:3, preview:imgPreview3, badge:'Side',  color:'#8b5cf6' },
+                    ].map((f) => (
+                      <div key={f.which} style={{ marginBottom: 20 }}>
+                        <label style={{ ...labelStyle, display:'flex', alignItems:'center', gap:6 }}>
+                          <span style={{ background:f.color, color:'#fff', fontSize:8, padding:'2px 7px', borderRadius:2, letterSpacing:1, fontWeight:700, flexShrink:0 }}>{f.badge}</span>
+                          <span style={{ fontSize:10 }}>{f.l}</span>
+                        </label>
+                        <input
+                          type="url"
+                          value={pForm[f.urlKey]}
+                          onChange={e => {
+                            setPForm({...pForm, [f.urlKey]: e.target.value});
+                            if (f.which === 1) { setImgPreview(e.target.value); setImgBase64(''); }
+                            else if (f.which === 2) { setImgPreview2(e.target.value); setImgBase64_2(''); }
+                            else { setImgPreview3(e.target.value); setImgBase64_3(''); }
+                          }}
+                          placeholder="Paste image URL..."
+                          style={{ ...inputStyle, marginBottom: 10 }}
+                          onFocus={e => e.target.style.borderColor=f.color}
+                          onBlur={e => e.target.style.borderColor='#ddd'}
+                        />
+                        <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+                          <div style={{ flex:1, height:1, background:'#eee' }} />
+                          <span style={{ fontSize:9, color:'#bbb', letterSpacing:2, textTransform:'uppercase' }}>or upload</span>
+                          <div style={{ flex:1, height:1, background:'#eee' }} />
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={e => handleImgFile(e, f.which)}
+                          style={{ ...inputStyle, cursor:'pointer', fontSize:11 }}
+                        />
+                        <p style={{ fontSize:10, color:'#bbb', marginTop:4 }}>Max 2MB</p>
+                        {f.preview && (
+                          <div style={{ marginTop:10, position:'relative', display:'inline-block' }}>
+                            <img src={f.preview} alt="preview"
+                              style={{ width:'100%', maxWidth:90, height:110, objectFit:'cover', border:`2px solid ${f.color}`, background:'#f5f5f5', borderRadius:2, display:'block' }}
+                              onError={e => e.target.style.display='none'} />
+                            <div style={{ background:f.color, color:'#fff', fontSize:8, textAlign:'center', padding:'2px 0', letterSpacing:1, fontWeight:700, maxWidth:90 }}>{f.badge}</div>
+                            <button type="button" onClick={() => {
+                              if (f.which===1) { setImgPreview(''); setImgBase64(''); setPForm(p=>({...p, imageUrl:''})); }
+                              else if (f.which===2) { setImgPreview2(''); setImgBase64_2(''); setPForm(p=>({...p, imageUrl2:''})); }
+                              else { setImgPreview3(''); setImgBase64_3(''); setPForm(p=>({...p, imageUrl3:''})); }
+                            }} style={{ position:'absolute', top:-6, right:-6, width:18, height:18, borderRadius:'50%', background:'#ef4444', border:'none', color:'#fff', fontSize:10, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>✕</button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
