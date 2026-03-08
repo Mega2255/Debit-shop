@@ -908,7 +908,11 @@ export default function ProductDetail() {
           {/* Info */}
           <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: 24 }}>
             {[
+<<<<<<< HEAD
               '🚚 Free shipping on orders above ₦500,000',
+=======
+              '🚚 Free shipping on orders above ₦50,000',
+>>>>>>> 65d16dd (Add front/back/side image fields to admin)
               '🔄 No refund and no return',
               '🔒 100% authentic — guaranteed',
             ].map(t => <p key={t} style={{ fontSize: 12, color: '#888', marginBottom: 8 }}>{t}</p>)}
