@@ -235,7 +235,7 @@ export default function Navbar() {
           fontWeight: 500, textTransform: 'uppercase',
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
-          Free shipping on orders above ₦50,000 &nbsp;|&nbsp; WhatsApp: +234 903 434 4183
+          Free shipping on orders above ₦500,000 &nbsp;|&nbsp; WhatsApp: +234 903 434 4183
         </div>
 
         {/* ─── MAIN NAV ROW ─── */}
