@@ -24,6 +24,7 @@ const MEN_SUBCATS = [
   { slug: 'men-glasses', label: 'Glasses' },
   { slug: 'men-headwear', label: "Headwear's" },
   { slug: 'men-socks', label: 'Socks' },
+  { slug: 'men-caps', label: 'Caps' },
 ];
 
 const WOMEN_SUBCATS = [
@@ -37,6 +38,7 @@ const WOMEN_SUBCATS = [
   { slug: 'women-glasses', label: 'Glasses' },
   { slug: 'women-headwear', label: "Headwear's" },
   { slug: 'women-socks', label: 'Socks' },
+  { slug: 'women-caps', label: 'Caps' },
 ];
 
 // Maps a slug to the category string(s) stored in Firebase
