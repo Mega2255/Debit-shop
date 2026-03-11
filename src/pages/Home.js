@@ -27,7 +27,7 @@ function VideoHero() {
         loop
         playsInline
         preload="auto"
-        poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80"
+        poster="https://image2url.com/r2/default/images/1773220338724-aad66e41-d969-48bf-8dd6-afb412ff22cb.jpeg"
         style={{
           position: 'absolute',
           inset: 0,
@@ -340,7 +340,7 @@ function DualBanner() {
 
 /* ─────────────── MARQUEE TICKER ─────────────── */
 function Marquee() {
-  const items = ['New Arrivals', 'Premium Quality', 'Free Shipping Over ₦50,000', 'Men', 'Women', 'Collections', 'Luxury Streetwear'];
+  const items = ['New Arrivals', 'Premium Quality', 'Free Shipping Over ₦500,000', 'Men', 'Women', 'Collections', 'Luxury Streetwear'];
   return (
     <div style={{ background: '#ea580c', overflow: 'hidden', padding: '12px 0', marginBottom: 0 }}>
       <div style={{ display: 'flex', animation: 'marquee 20s linear infinite', whiteSpace: 'nowrap' }}>
@@ -400,7 +400,7 @@ function FeaturesBar() {
     <div style={{ borderTop: '1px solid #e8e8e8', borderBottom: '1px solid #e8e8e8', padding: '28px 40px', background: '#fafafa' }}>
       <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 24 }}>
         {[
-          { icon: '🚚', label: 'Free Shipping', sub: 'Orders over ₦50,000' },
+          { icon: '🚚', label: 'Free Shipping', sub: 'Orders over ₦500,000' },
           { icon: '🔄', label: 'Easy Returns', sub: '30-day return policy' },
           { icon: '🔒', label: 'Secure Payment', sub: 'Powered by Paystack' },
           { icon: '💬', label: 'Live Support', sub: 'WhatsApp: +234 903 434 4183' },
