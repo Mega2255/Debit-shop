@@ -10,10 +10,10 @@ const CATS = [
   'New Arrivals',
   // Men
   'Men - T-Shirts','Men - Shirts','Men - Pants','Men - Shorts','Men - Jackets','Men - Jerseys',
-  "Men - Belts","Men - Glasses","Men - Headwear's","Men - Socks",
+  "Men - Belts","Men - Glasses","Men - Headwear's","Men - Socks","Men - Caps",
   // Women
   'Women - Tops','Women - Bottoms','Women - Dresses','Women - Jackets','Women - Swimwear','Women - Jerseys',
-  "Women - Belts","Women - Glasses","Women - Headwear's","Women - Socks",
+  "Women - Belts","Women - Glasses","Women - Headwear's","Women - Socks","Women - Caps",
   // Other
   'Collections','Classics','Accessories',
 ];
