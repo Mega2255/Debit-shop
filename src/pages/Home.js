@@ -48,10 +48,14 @@ function VideoHero() {
         }}
       >
 <<<<<<< HEAD
+<<<<<<< HEAD
         <source src="https://image2url.com/r2/default/videos/1773764507441-9a7f9fa9-758c-4d77-a84c-69fe8c4bea16.mp4" type="video/mp4" />
 =======
         <source src="https://image2url.com/r2/default/videos/1772114975196-336fcc5e-ff17-498e-bced-84053f48257d.mp4" type="video/mp4" />
 >>>>>>> 87b0c3d (Ready for Vercel)
+=======
+        <source src="https://image2url.com/r2/default/videos/1773764507441-9a7f9fa9-758c-4d77-a84c-69fe8c4bea16.mp4" type="video/mp4" />
+>>>>>>> c75284f (Link policy pages in footer)
         <source src="https://cdn.coverr.co/videos/coverr-man-walking-in-a-city-5569/1080p.mp4" type="video/mp4" />
       </video>
 

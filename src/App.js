@@ -18,11 +18,17 @@ import Contact from './pages/Contact';
 import Wishlist from './pages/Wishlist';
 import DebitCitizen from './pages/DebitCitizen';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ReturnPolicy from './pages/ReturnPolicy';
 =======
 >>>>>>> 87b0c3d (Ready for Vercel)
+=======
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import ReturnPolicy from './pages/ReturnPolicy';
+>>>>>>> c75284f (Link policy pages in footer)
 
 function Layout({ children, noFooter }) {
   return (
@@ -73,11 +79,17 @@ export default function App() {
             <Route path="/lookbook" element={<Layout><Category /></Layout>} />
             <Route path="/debit-citizen" element={<Layout><DebitCitizen /></Layout>} />
 <<<<<<< HEAD
+<<<<<<< HEAD
             <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
             <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
             <Route path="/return-policy" element={<Layout><ReturnPolicy /></Layout>} />
 =======
 >>>>>>> 87b0c3d (Ready for Vercel)
+=======
+            <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
+            <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
+            <Route path="/return-policy" element={<Layout><ReturnPolicy /></Layout>} />
+>>>>>>> c75284f (Link policy pages in footer)
             <Route path="*" element={<Layout>
               <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16, paddingTop: 100 }}>
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 120, fontWeight: 300, color: '#e8e8e8', lineHeight: 1 }}>404</p>
@@ -91,7 +103,11 @@ export default function App() {
     </BrowserRouter>
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> 87b0c3d (Ready for Vercel)
+=======
+}
+>>>>>>> c75284f (Link policy pages in footer)
