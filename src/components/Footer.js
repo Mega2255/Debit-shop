@@ -61,6 +61,9 @@ export default function Footer() {
             { label: 'Track Order', path: '/orders' },
             { label: 'Wishlist', path: '/wishlist' },
             { label: 'Contact Us', path: '/contact' },
+            { label: 'Return Policy', path: '/return-policy' },
+            { label: 'Privacy Policy', path: '/privacy-policy' },
+            { label: 'Terms of Service', path: '/terms-of-service' },
           ].map(item => (
             <Link key={item.label} to={item.path}
               style={{ display: 'block', color: 'rgba(255,255,255,0.75)', fontSize: 13, marginBottom: 10, transition: 'color 0.2s' }}
@@ -92,11 +95,16 @@ export default function Footer() {
       <div style={{ borderTop: '1px solid rgba(0,0,0,0.15)', padding: '20px 40px', maxWidth: 1400, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
         <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>© 2026 debit. All rights reserved.</p>
         <div style={{ display: 'flex', gap: 24 }}>
-          {['Privacy Policy', 'Terms of Service', 'Returns Policy'].map(t => (
-            <a key={t} href="#" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12, transition: 'color 0.2s' }}
+          {[
+            { label: 'Privacy Policy', path: '/privacy-policy' },
+            { label: 'Terms of Service', path: '/terms-of-service' },
+            { label: 'Return Policy', path: '/return-policy' },
+          ].map(item => (
+            <Link key={item.label} to={item.path}
+              style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12, transition: 'color 0.2s', textDecoration: 'none' }}
               onMouseEnter={e => e.currentTarget.style.color = '#fff'}
               onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
-            >{t}</a>
+            >{item.label}</Link>
           ))}
         </div>
       </div>
