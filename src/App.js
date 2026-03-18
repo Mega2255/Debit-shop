@@ -17,6 +17,9 @@ import Category, { SearchResults } from './pages/Category';
 import Contact from './pages/Contact';
 import Wishlist from './pages/Wishlist';
 import DebitCitizen from './pages/DebitCitizen';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import ReturnPolicy from './pages/ReturnPolicy';
 
 function Layout({ children, noFooter }) {
   return (
@@ -66,6 +69,9 @@ export default function App() {
             <Route path="/wishlist" element={<Layout><Wishlist /></Layout>} />
             <Route path="/lookbook" element={<Layout><Category /></Layout>} />
             <Route path="/debit-citizen" element={<Layout><DebitCitizen /></Layout>} />
+            <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
+            <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
+            <Route path="/return-policy" element={<Layout><ReturnPolicy /></Layout>} />
             <Route path="*" element={<Layout>
               <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16, paddingTop: 100 }}>
                 <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 120, fontWeight: 300, color: '#e8e8e8', lineHeight: 1 }}>404</p>
