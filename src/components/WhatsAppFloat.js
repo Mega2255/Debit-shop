@@ -5,7 +5,7 @@ export default function WhatsAppFloat() {
   const [hovered, setHovered] = useState(false);
   return (
     <a
-      href="https://wa.me/2349034344183?text=Hi!%20I'm%20interested%20in%20your%20products."
+      href="https://wa.me/2348165203067?text=Hi!%20I'm%20interested%20in%20your%20products."
       target="_blank" rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
