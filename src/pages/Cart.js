@@ -111,7 +111,7 @@ export function Checkout() {
   // WHATSAPP ORDER HANDLER (temporary until Paystack key is ready)
   // To switch to Paystack later: replace this function with handlePaystack below
   // ─────────────────────────────────────────────────────────────────
-  const WHATSAPP_NUMBER = '2349034344183'; // 08108745980 in international format
+  const WHATSAPP_NUMBER = '2348165203067'; // 08108745980 in international format
 
   const handlePay = async () => {
     if (!form.name || !form.email || !form.phone || !form.address) {
