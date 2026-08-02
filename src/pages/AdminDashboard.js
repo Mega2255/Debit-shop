@@ -10,24 +10,10 @@ const CATS = [
   'New Arrivals',
   // Men
   'Men - T-Shirts','Men - Shirts','Men - Pants','Men - Shorts','Men - Jackets','Men - Jerseys',
-<<<<<<< HEAD
-<<<<<<< HEAD
   "Men - Belts","Men - Glasses","Men - Headwear's","Men - Socks","Men - Caps",
   // Women
   'Women - Tops','Women - Bottoms','Women - Dresses','Women - Jackets','Women - Swimwear','Women - Jerseys',
   "Women - Belts","Women - Glasses","Women - Headwear's","Women - Socks","Women - Caps",
-=======
-  "Men - Belts","Men - Glasses","Men - Headwear's","Men - Socks",
-  // Women
-  'Women - Tops','Women - Bottoms','Women - Dresses','Women - Jackets','Women - Swimwear','Women - Jerseys',
-  "Women - Belts","Women - Glasses","Women - Headwear's","Women - Socks",
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
-=======
-  "Men - Belts","Men - Glasses","Men - Headwear's","Men - Socks","Men - Caps",
-  // Women
-  'Women - Tops','Women - Bottoms','Women - Dresses','Women - Jackets','Women - Swimwear','Women - Jerseys',
-  "Women - Belts","Women - Glasses","Women - Headwear's","Women - Socks","Women - Caps",
->>>>>>> 956355a (added cap category)
   // Other
   'Collections','Classics','Accessories',
 ];

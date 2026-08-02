@@ -27,15 +27,7 @@ function VideoHero() {
         loop
         playsInline
         preload="auto"
-<<<<<<< HEAD
-<<<<<<< HEAD
         poster="https://image2url.com/r2/default/images/1773220338724-aad66e41-d969-48bf-8dd6-afb412ff22cb.jpeg"
-=======
-        poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80"
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-        poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80"
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
         style={{
           position: 'absolute',
           inset: 0,
@@ -47,15 +39,7 @@ function VideoHero() {
           /* On narrow/portrait screens objectFit cover keeps the video full */
         }}
       >
-<<<<<<< HEAD
-<<<<<<< HEAD
         <source src="https://image2url.com/r2/default/videos/1773764507441-9a7f9fa9-758c-4d77-a84c-69fe8c4bea16.mp4" type="video/mp4" />
-=======
-        <source src="https://image2url.com/r2/default/videos/1772114975196-336fcc5e-ff17-498e-bced-84053f48257d.mp4" type="video/mp4" />
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-        <source src="https://image2url.com/r2/default/videos/1773764507441-9a7f9fa9-758c-4d77-a84c-69fe8c4bea16.mp4" type="video/mp4" />
->>>>>>> c75284f (Link policy pages in footer)
         <source src="https://cdn.coverr.co/videos/coverr-man-walking-in-a-city-5569/1080p.mp4" type="video/mp4" />
       </video>
 
@@ -153,30 +137,15 @@ function VideoHero() {
 // Exactly like ash-luxe: section title, sub-tabs (T-Shirts, Pants, Jackets…), product grid, View All
 function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580c' }) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.key || 'all');
-<<<<<<< HEAD
-<<<<<<< HEAD
   const [page, setPage] = useState(1);
   const PER_PAGE = 8;
 
   const tabMatches = (p, key) => {
     const cat = (p.category || '').toLowerCase();
     const k = key.toLowerCase();
-=======
-=======
-  const [page, setPage] = useState(1);
-  const PER_PAGE = 8;
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
-
-  const tabMatches = (p, key) => {
-    const cat = (p.category || '').toLowerCase();
-    const k = key.toLowerCase();
-<<<<<<< HEAD
     // Exact subcategory match: strip gender prefix and compare the rest
     // e.g. key "belt" should match "men - belts", "women - belts"
     // e.g. key "t-shirt" should match "men - t-shirts"
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
     const afterDash = cat.includes(' - ') ? cat.split(' - ').slice(1).join(' - ') : cat;
     return afterDash.includes(k) || cat.includes(k);
   };
@@ -185,10 +154,6 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
     ? allProducts
     : allProducts.filter(p => tabMatches(p, activeTab));
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const currentPage = Math.min(page, totalPages);
   const display = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
@@ -203,7 +168,6 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
     if (currentPage >= totalPages - 2) return [totalPages-4, totalPages-3, totalPages-2, totalPages-1, totalPages];
     return [currentPage-2, currentPage-1, currentPage, currentPage+1, currentPage+2];
   };
-<<<<<<< HEAD
 
   return (
     <section style={{ padding: '64px 20px', maxWidth: 1400, margin: '0 auto' }}>
@@ -211,24 +175,6 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, flexWrap: 'wrap', gap: 16, padding: '0 20px' }}>
         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 300, letterSpacing: 1, color: '#ea580c' }}>{title}</h2>
         <Link to={viewAllPath} style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: '#111', borderBottom: '1px solid #111', paddingBottom: 2 }}
-=======
-  const display = filtered.slice(0, 8);
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
-
-  return (
-    <section style={{ padding: '64px 20px', maxWidth: 1400, margin: '0 auto' }}>
-      {/* Section header */}
-<<<<<<< HEAD
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 300, letterSpacing: 1, color: '#ea580c' }}>{title}</h2>
-        <Link to={viewAllPath} style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: '#111', borderBottom: '1px solid #111', paddingBottom: 2, transition: 'color 0.2s, border-color 0.2s' }}
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32, flexWrap: 'wrap', gap: 16, padding: '0 20px' }}>
-        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 300, letterSpacing: 1, color: '#ea580c' }}>{title}</h2>
-        <Link to={viewAllPath} style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: '#111', borderBottom: '1px solid #111', paddingBottom: 2 }}
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
           onMouseEnter={e => { e.currentTarget.style.color = accent; e.currentTarget.style.borderColor = accent; }}
           onMouseLeave={e => { e.currentTarget.style.color = '#111'; e.currentTarget.style.borderColor = '#111'; }}
         >View All</Link>
@@ -236,27 +182,11 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
 
       {/* Sub-category tabs */}
       {tabs.length > 1 && (
-<<<<<<< HEAD
-<<<<<<< HEAD
         <div style={{ display: 'flex', gap: 0, marginBottom: 36, borderBottom: '1px solid #e8e8e8', overflowX: 'auto', scrollbarWidth: 'none', padding: '0 20px' }}>
           {tabs.map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
               padding: '10px 16px', background: 'none', border: 'none',
               fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600,
-=======
-        <div style={{ display: 'flex', gap: 0, marginBottom: 36, borderBottom: '1px solid #e8e8e8', overflowX: 'auto', scrollbarWidth: 'none' }}>
-          {tabs.map(tab => (
-            <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-              padding: '10px 20px', background: 'none', border: 'none',
-              fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600,
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-        <div style={{ display: 'flex', gap: 0, marginBottom: 36, borderBottom: '1px solid #e8e8e8', overflowX: 'auto', scrollbarWidth: 'none', padding: '0 20px' }}>
-          {tabs.map(tab => (
-            <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-              padding: '10px 16px', background: 'none', border: 'none',
-              fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600,
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
               color: activeTab === tab.key ? accent : '#888',
               borderBottom: `2px solid ${activeTab === tab.key ? accent : 'transparent'}`,
               cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap', marginBottom: -1,
@@ -265,44 +195,20 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
         </div>
       )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       {/* Product grid — 2 cols on mobile, 4 on desktop */}
       {display.length === 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', background: '#fafafa', border: '1px dashed #e8e8e8', margin: '0 20px' }}>
-=======
-      {/* Product grid */}
-      {display.length === 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', background: '#fafafa', border: '1px dashed #e8e8e8' }}>
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-      {/* Product grid — 2 cols on mobile, 4 on desktop */}
-      {display.length === 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 0', background: '#fafafa', border: '1px dashed #e8e8e8', margin: '0 20px' }}>
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 300, color: '#ccc', marginBottom: 8 }}>
             {tabs.find(t => t.key === activeTab)?.label || 'Products'}
           </p>
           <p style={{ fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', color: '#ea580c', fontWeight: 600 }}>Coming Soon!</p>
         </div>
       ) : (
-<<<<<<< HEAD
-<<<<<<< HEAD
         <div className="home-product-grid">
-=======
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '32px 20px' }}>
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-        <div className="home-product-grid">
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
           {display.map(p => <ProductCard key={p.id} product={p} />)}
         </div>
       )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
       {/* Pagination — Prev, 1 2 3 …, Next */}
       {totalPages > 1 && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 40, flexWrap: 'wrap' }}>
@@ -351,23 +257,10 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
         </div>
       )}
 
-<<<<<<< HEAD
       {/* See more / View all link */}
       <div style={{ textAlign: 'center', marginTop: 32 }}>
         <Link to={viewAllPath} style={{
           display: 'inline-block', border: '1px solid #111', padding: '12px 40px',
-=======
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
-      {/* See more / View all link */}
-      <div style={{ textAlign: 'center', marginTop: 32 }}>
-        <Link to={viewAllPath} style={{
-<<<<<<< HEAD
-          display: 'inline-block', border: '1px solid #111', padding: '13px 48px',
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
-          display: 'inline-block', border: '1px solid #111', padding: '12px 40px',
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
           fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', fontWeight: 600,
           color: '#111', transition: 'all 0.25s',
         }}
@@ -375,10 +268,6 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#111'; e.currentTarget.style.borderColor = '#111'; }}
         >See More</Link>
       </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
 
       <style>{`
         .home-product-grid {
@@ -398,11 +287,6 @@ function TabbedSection({ title, allProducts, tabs, viewAllPath, accent = '#ea580
           }
         }
       `}</style>
-<<<<<<< HEAD
-=======
->>>>>>> 87b0c3d (Ready for Vercel)
-=======
->>>>>>> 65d16dd (Add front/back/side image fields to admin)
     </section>
   );
 }
@@ -459,11 +343,7 @@ function DualBanner() {
 
 /* ─────────────── MARQUEE TICKER ─────────────── */
 function Marquee() {
-<<<<<<< HEAD
   const items = ['New Arrivals', 'Premium Quality', 'Free Shipping Over ₦500,000', 'Men', 'Women', 'Collections', 'Luxury Streetwear'];
-=======
-  const items = ['New Arrivals', 'Premium Quality', 'Free Shipping Over ₦50,000', 'Men', 'Women', 'Collections', 'Luxury Streetwear'];
->>>>>>> 87b0c3d (Ready for Vercel)
   return (
     <div style={{ background: '#ea580c', overflow: 'hidden', padding: '12px 0', marginBottom: 0 }}>
       <div style={{ display: 'flex', animation: 'marquee 20s linear infinite', whiteSpace: 'nowrap' }}>
@@ -523,11 +403,7 @@ function FeaturesBar() {
     <div style={{ borderTop: '1px solid #e8e8e8', borderBottom: '1px solid #e8e8e8', padding: '28px 40px', background: '#fafafa' }}>
       <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 24 }}>
         {[
-<<<<<<< HEAD
           { icon: '🚚', label: 'Free Shipping', sub: 'Orders over ₦500,000' },
-=======
-          { icon: '🚚', label: 'Free Shipping', sub: 'Orders over ₦50,000' },
->>>>>>> 87b0c3d (Ready for Vercel)
           { icon: '🔄', label: 'Easy Returns', sub: '30-day return policy' },
           { icon: '🔒', label: 'Secure Payment', sub: 'Powered by Paystack' },
           { icon: '💬', label: 'Live Support', sub: 'WhatsApp: +234 903 434 4183' },
