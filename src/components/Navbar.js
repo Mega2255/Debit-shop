@@ -16,6 +16,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [userMenu, setUserMenu] = useState(false);
   const [cartPreview, setCartPreview] = useState(false);
+  const [mobileSubOpen, setMobileSubOpen] = useState(null); // which mobile item's submenu is expanded
   const navigate = useNavigate();
   const location = useLocation();
   const dropTimer = useRef(null);
@@ -26,7 +27,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); setSearchOpen(false); setUserMenu(false); }, [location]);
+  useEffect(() => {
+    setMenuOpen(false);
+    setSearchOpen(false);
+    setUserMenu(false);
+    setMobileSubOpen(null);
+  }, [location]);
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -87,6 +93,7 @@ export default function Navbar() {
     },
     { label: 'Classics', path: '/category/classics' },
     { label: 'Lookbook', path: '/lookbook' },
+    { label: 'About Us', path: '/about-us' },
     { label: 'Debit Citizen', path: '/debit-citizen', special: true },
   ];
 
@@ -351,11 +358,31 @@ export default function Navbar() {
           <div style={{ background: '#fff', borderTop: '1px solid #e8e8e8', maxHeight: '75vh', overflowY: 'auto' }}>
             {navItems.map(item => (
               <div key={item.label} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                <Link to={item.path}
-                  style={{ display: 'block', padding: '14px 20px', fontSize: 13, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: item.special ? '#16a34a' : item.path === '/' ? '#16a34a' : '#111' }}>
-                  {item.label}
-                </Link>
-                {item.sub && item.sub.map(s => (
+                {item.sub ? (
+                  /* Parent items with sub-categories: tap to expand/collapse, no navigation on first tap */
+                  <button
+                    onClick={() => setMobileSubOpen(mobileSubOpen === item.label ? null : item.label)}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+                      padding: '14px 20px', fontSize: 13, letterSpacing: 2, textTransform: 'uppercase',
+                      fontWeight: 600, color: item.path === '/' ? '#16a34a' : '#111', textAlign: 'left',
+                    }}
+                  >
+                    <span>{item.label}</span>
+                    <span style={{
+                      fontSize: 11, color: '#999',
+                      transform: mobileSubOpen === item.label ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s',
+                    }}>▾</span>
+                  </button>
+                ) : (
+                  <Link to={item.path}
+                    style={{ display: 'block', padding: '14px 20px', fontSize: 13, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 600, color: item.special ? '#16a34a' : item.path === '/' ? '#16a34a' : '#111' }}>
+                    {item.label}
+                  </Link>
+                )}
+                {item.sub && mobileSubOpen === item.label && item.sub.map(s => (
                   <Link key={s.label} to={s.path}
                     style={{ display: 'block', padding: '9px 32px', fontSize: 12, letterSpacing: 1.5, textTransform: 'uppercase', color: '#888', borderTop: '1px solid #fafafa' }}>
                     {s.label}
@@ -363,8 +390,11 @@ export default function Navbar() {
                 ))}
               </div>
             ))}
-            {/* Contact info at bottom of mobile menu */}
+            {/* Contact Us section at bottom of mobile menu */}
             <div style={{ padding: '20px', background: '#fafafa', borderTop: '2px solid #f0f0f0' }}>
+              <p style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', fontWeight: 700, color: '#111', marginBottom: 10 }}>
+                Contact Us
+              </p>
               <p style={{ fontSize: 12, color: '#888', marginBottom: 6 }}>📞 +234 903 434 4183</p>
               <p style={{ fontSize: 12, color: '#888' }}>✉️ Debitbyrecent@gmail.com</p>
             </div>

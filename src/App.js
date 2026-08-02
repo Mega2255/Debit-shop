@@ -20,6 +20,7 @@ import DebitCitizen from './pages/DebitCitizen';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ReturnPolicy from './pages/ReturnPolicy';
+import AboutUs from './pages/AboutUs';
 
 function Layout({ children, noFooter }) {
   return (
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/wishlist" element={<Layout><Wishlist /></Layout>} />
             <Route path="/lookbook" element={<Layout><Category /></Layout>} />
             <Route path="/debit-citizen" element={<Layout><DebitCitizen /></Layout>} />
+            <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
             <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
             <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
             <Route path="/return-policy" element={<Layout><ReturnPolicy /></Layout>} />
