@@ -111,7 +111,11 @@ export function Checkout() {
   // WHATSAPP ORDER HANDLER (temporary until Paystack key is ready)
   // To switch to Paystack later: replace this function with handlePaystack below
   // ─────────────────────────────────────────────────────────────────
+<<<<<<< HEAD
   const WHATSAPP_NUMBER = '2348165203067'; // 08108745980 in international format
+=======
+  const WHATSAPP_NUMBER = '2349034344183'; // 08108745980 in international format
+>>>>>>> df2734a (latest changes and addition)
 
   const handlePay = async () => {
     if (!form.name || !form.email || !form.phone || !form.address) {
@@ -302,4 +306,8 @@ export function Checkout() {
       `}</style>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> df2734a (latest changes and addition)

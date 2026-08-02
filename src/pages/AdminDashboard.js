@@ -191,7 +191,6 @@ export default function AdminDashboard() {
   const [imgBase64_3, setImgBase64_3] = useState('');
   const [imgPreview3, setImgPreview3] = useState('');
   const [saving, setSaving] = useState(false);
-  const [userSearch, setUserSearch] = useState('');
   const [selMsg, setSelMsg] = useState(null);
   const [citizenPosts, setCitizenPosts] = useState([]);
   const [citizenForm, setCitizenForm] = useState({ personName:'', caption:'', type:'photo', mediaUrl:'' });
@@ -300,14 +299,12 @@ export default function AdminDashboard() {
 
   const updateOrderStatus = async (orderId, userId, status) => { await update(dbRef(db, `allOrders/${orderId}`), {status}); await update(dbRef(db, `orders/${userId}/${orderId}`), {status}); toast.success(`Order ${status}`); };
 
-  const filteredUsers = users.filter(u => !userSearch || (u.name||'').toLowerCase().includes(userSearch.toLowerCase()) || (u.email||'').toLowerCase().includes(userSearch.toLowerCase()));
   const unreadMsgs = messages.filter(m => m.status === 'unread').length;
 
   const TABS = [
     { id:'overview', label:'Overview' },
     { id:'products', label:'Products' },
     { id:'orders', label:'Orders' },
-    { id:'users', label:'Users' },
     { id:'messages', label:`Messages${unreadMsgs > 0 ? ` (${unreadMsgs})` : ''}` },
     { id:'stock', label:'Stock' },
     { id:'citizen', label:'Debit Citizen' },
@@ -629,55 +626,6 @@ export default function AdminDashboard() {
                 </tbody>
               </table>
               {orders.length === 0 && <p style={{ textAlign:'center', padding:40, color:'#999', fontSize:13 }}>No orders yet.</p>}
-            </div>
-          </div>
-        )}
-
-        {/* ── USERS ── */}
-        {tab === 'users' && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 32, fontWeight: 300 }}>Users ({filteredUsers.length})</h2>
-              <input value={userSearch} onChange={e => setUserSearch(e.target.value)} placeholder="Search by name or email..."
-                style={{ padding:'9px 14px', border:'1px solid #e8e8e8', fontSize:13, outline:'none', minWidth:250, transition:'border-color 0.2s' }}
-                onFocus={e => e.target.style.borderColor='#ea580c'}
-                onBlur={e => e.target.style.borderColor='#e8e8e8'}
-              />
-            </div>
-            <div style={{ border: '1px solid #e8e8e8', overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid #e8e8e8', background: '#fafafa' }}>
-                    {['User','Email','Role','Joined','Orders'].map(h => (
-                      <th key={h} style={{ padding:'10px 16px', textAlign:'left', fontSize:10, letterSpacing:2, textTransform:'uppercase', fontWeight:700, color:'#888' }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredUsers.map(u => {
-                    const uOrders = orders.filter(o => o.userId === u.id);
-                    return (
-                      <tr key={u.id} style={{ borderBottom: '1px solid #f5f5f5' }}>
-                        <td style={{ padding:'12px 16px' }}>
-                          <div style={{ display:'flex', alignItems:'center', gap:12 }}>
-                            <div style={{ width:32, height:32, borderRadius:'50%', background:'linear-gradient(135deg,#ea580c,#84cc16)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, color:'#fff', flexShrink:0 }}>
-                              {(u.name||'U')[0].toUpperCase()}
-                            </div>
-                            <span style={{ fontSize:13, color:'#111' }}>{u.name||'—'}</span>
-                          </div>
-                        </td>
-                        <td style={{ padding:'12px 16px', fontSize:13, color:'#555' }}>{u.email}</td>
-                        <td style={{ padding:'12px 16px' }}>
-                          <span style={{ background: u.role==='admin' ? '#fff0e6' : '#f0f9ff', color: u.role==='admin' ? '#ea580c' : '#0369a1', padding:'3px 10px', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase' }}>{u.role||'user'}</span>
-                        </td>
-                        <td style={{ padding:'12px 16px', fontSize:13, color:'#888' }}>{u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'}</td>
-                        <td style={{ padding:'12px 16px', fontSize:13, fontWeight:600, color: uOrders.length > 0 ? '#65a30d' : '#ccc' }}>{uOrders.length}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              {filteredUsers.length === 0 && <p style={{ textAlign:'center', padding:40, color:'#999', fontSize:13 }}>No users found.</p>}
             </div>
           </div>
         )}

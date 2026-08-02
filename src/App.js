@@ -22,6 +22,7 @@ import DebitCitizen from './pages/DebitCitizen';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ReturnPolicy from './pages/ReturnPolicy';
+<<<<<<< HEAD
 =======
 >>>>>>> 87b0c3d (Ready for Vercel)
 =======
@@ -29,6 +30,9 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ReturnPolicy from './pages/ReturnPolicy';
 >>>>>>> c75284f (Link policy pages in footer)
+=======
+import AboutUs from './pages/AboutUs';
+>>>>>>> df2734a (latest changes and addition)
 
 function Layout({ children, noFooter }) {
   return (
@@ -80,6 +84,10 @@ export default function App() {
             <Route path="/debit-citizen" element={<Layout><DebitCitizen /></Layout>} />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+            <Route path="/about-us" element={<Layout><AboutUs /></Layout>} />
+>>>>>>> df2734a (latest changes and addition)
             <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
             <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
             <Route path="/return-policy" element={<Layout><ReturnPolicy /></Layout>} />
