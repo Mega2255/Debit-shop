@@ -28,15 +28,16 @@ function VideoHero() {
         playsInline
         preload="auto"
         poster="https://image2url.com/r2/default/images/1773220338724-aad66e41-d969-48bf-8dd6-afb412ff22cb.jpeg"
+        className="hero-video"
         style={{
           position: 'absolute',
           inset: 0,
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          objectPosition: 'center',
           opacity: 0.85,
-          /* On narrow/portrait screens objectFit cover keeps the video full */
+          /* objectPosition is controlled via the .hero-video CSS class below,
+             so the crop can differ between desktop and mobile */
         }}
       >
         <source src="https://www.image2url.com/r2/default/videos/1790435653324-9757d7aa-18bb-4c8f-a3e7-ff124956d57d.mp4" type="video/mp4" />
@@ -123,6 +124,20 @@ function VideoHero() {
         @keyframes scrollPulse {
           0%, 100% { opacity: 0.3; transform: scaleY(1); }
           50% { opacity: 1; transform: scaleY(1.1); }
+        }
+
+        /* Anchor the crop to the TOP of the frame on desktop so wide/short
+           viewports crop from the bottom instead of the top — fixes the
+           "navbar cutting the top of the video" look on desktop. */
+        .hero-video {
+          object-position: center top;
+        }
+        /* On mobile the viewport is tall/narrow so little/no vertical
+           cropping happens anyway — keep it centered as before. */
+        @media (max-width: 900px) {
+          .hero-video {
+            object-position: center;
+          }
         }
         /* On very short screens (landscape mobile) adjust bottom offset */
         @media (max-height: 500px) {
