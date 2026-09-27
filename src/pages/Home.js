@@ -8,18 +8,50 @@ import ProductCard from '../components/ProductCard';
 /* ─────────────── VIDEO HERO ─────────────── */
 function VideoHero() {
   const videoRef = React.useRef(null);
+  const bgVideoRef = React.useRef(null);
 
   React.useEffect(() => {
-    // Ensure video plays on mobile (some browsers need a nudge)
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
+    const vids = [videoRef.current, bgVideoRef.current].filter(Boolean);
+    // A little faster than normal speed.
+    const setRate = () => vids.forEach(v => { v.playbackRate = 1.15; });
+    setRate();
+    vids.forEach(v => v.addEventListener('loadedmetadata', setRate)); // some browsers reset rate once metadata loads
+    vids.forEach(v => v.play().catch(() => {}));
+    return () => vids.forEach(v => v.removeEventListener('loadedmetadata', setRate));
   }, []);
 
-  return (
-    <div style={{ position: 'relative', height: '100vh', minHeight: 500, overflow: 'hidden', background: '#111' }}>
+  const sources = (
+    <>
+      <source src="https://www.image2url.com/r2/default/videos/1790435653324-9757d7aa-18bb-4c8f-a3e7-ff124956d57d.mp4" type="video/mp4" />
+      <source src="https://cdn.coverr.co/videos/coverr-man-walking-in-a-city-5569/1080p.mp4" type="video/mp4" />
+    </>
+  );
 
-      {/* ── VIDEO ── fills the full hero, cropped to fit on all screen sizes */}
+  return (
+    <div className="hero-shell" style={{ position: 'relative', overflow: 'hidden', background: '#111' }}>
+
+      {/* ── BACKGROUND FILL ── blurred, cropped copy of the same video. This is
+          allowed to crop freely since it's just a soft backdrop, never the
+          focal image — it exists purely to avoid empty black bars. ── */}
+      <video
+        ref={bgVideoRef}
+        aria-hidden="true"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        style={{
+          position: 'absolute', inset: 0, width: '100%', height: '100%',
+          objectFit: 'cover', objectPosition: 'center',
+          transform: 'scale(1.15)',
+          filter: 'blur(35px) brightness(0.55)',
+        }}
+      >{sources}</video>
+
+      {/* ── FOREGROUND VIDEO ── the real, focal video. object-fit: contain
+          guarantees the FULL frame is always visible — nothing from the top
+          or bottom (or sides) is ever cropped, on any screen size. ── */}
       <video
         ref={videoRef}
         autoPlay
@@ -27,22 +59,16 @@ function VideoHero() {
         loop
         playsInline
         preload="auto"
-        poster="https://image2url.com/r2/default/images/1773220338724-aad66e41-d969-48bf-8dd6-afb412ff22cb.jpeg"
         className="hero-video"
         style={{
           position: 'absolute',
           inset: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'cover',
-          opacity: 0.85,
-          /* objectPosition is controlled via the .hero-video CSS class below,
-             so the crop can differ between desktop and mobile */
+          objectFit: 'contain',
+          opacity: 0.95,
         }}
-      >
-        <source src="https://www.image2url.com/r2/default/videos/1790435653324-9757d7aa-18bb-4c8f-a3e7-ff124956d57d.mp4" type="video/mp4" />
-        <source src="https://cdn.coverr.co/videos/coverr-man-walking-in-a-city-5569/1080p.mp4" type="video/mp4" />
-      </video>
+      >{sources}</video>
 
       {/* ── DARK GRADIENT OVERLAY ── makes text readable on any video frame */}
       <div style={{
@@ -126,19 +152,21 @@ function VideoHero() {
           50% { opacity: 1; transform: scaleY(1.1); }
         }
 
-        /* Anchor the crop to the TOP of the frame on desktop so wide/short
-           viewports crop from the bottom instead of the top — fixes the
-           "navbar cutting the top of the video" look on desktop. */
-        .hero-video {
-          object-position: center top;
+        /* Full-screen hero on desktop. */
+        .hero-shell {
+          height: 100vh;
+          min-height: 500px;
         }
-        /* On mobile the viewport is tall/narrow so little/no vertical
-           cropping happens anyway — keep it centered as before. */
+        /* On mobile the navbar is sticky (takes up real space) instead of
+           floating over the hero, so size the hero to fill exactly what's
+           left of the screen — no overlap, no leftover gap. */
         @media (max-width: 900px) {
-          .hero-video {
-            object-position: center;
+          .hero-shell {
+            height: calc(100vh - var(--site-navbar-height, 93px));
+            min-height: 400px;
           }
         }
+
         /* On very short screens (landscape mobile) adjust bottom offset */
         @media (max-height: 500px) {
           .hero-content { bottom: 8% !important; }

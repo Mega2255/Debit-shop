@@ -1,5 +1,5 @@
 // src/components/Navbar.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -20,11 +20,27 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const dropTimer = useRef(null);
+  const navRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Publish the navbar's real rendered height as a CSS variable so other
+  // components (e.g. the homepage hero) can size themselves around it.
+  // useLayoutEffect (not useEffect) runs before the browser paints, so this
+  // is set correctly on the very first frame — no flash, no residual overlap.
+  useLayoutEffect(() => {
+    const setNavHeightVar = () => {
+      if (navRef.current) {
+        document.documentElement.style.setProperty('--site-navbar-height', `${navRef.current.offsetHeight}px`);
+      }
+    };
+    setNavHeightVar();
+    window.addEventListener('resize', setNavHeightVar);
+    return () => window.removeEventListener('resize', setNavHeightVar);
   }, []);
 
   useEffect(() => {
@@ -228,7 +244,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav style={{
+      <nav ref={navRef} className="site-navbar" style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
         background: scrolled ? 'rgba(22,101,52,0.98)' : 'rgba(22,101,52,0.92)',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
@@ -246,14 +262,14 @@ export default function Navbar() {
         </div>
 
         {/* ─── MAIN NAV ROW ─── */}
-        <div style={{
+        <div className="main-nav-row" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           height: 64, padding: '0 20px',
           maxWidth: 1400, margin: '0 auto', position: 'relative',
         }}>
 
           {/* ── DESKTOP: Left nav links ── */}
-          <div className="desk-only" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+          <div className="desk-only nav-left" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             {navItems.slice(0, 3).map(item => (
               <div key={item.label} style={{ position: 'relative' }}
                 onMouseEnter={() => item.sub && openDrop(item.label)}
@@ -287,8 +303,8 @@ export default function Navbar() {
             <span style={{ display: 'block', width: 22, height: 1.5, background: menuOpen ? '#86efac' : '#fff', transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(4px, -5px)' : 'none' }} />
           </button>
 
-          {/* ── CENTER: Logo (always centered absolutely) ── */}
-          <Link to="/" style={{
+          {/* ── CENTER: Logo (absolutely centered on mobile; placed in its own grid column on desktop) ── */}
+          <Link to="/" className="nav-logo" style={{
             position: 'absolute', left: '50%', transform: 'translateX(-50%)',
             display: 'flex', alignItems: 'center',
           }}>
@@ -300,7 +316,7 @@ export default function Navbar() {
           </Link>
 
           {/* ── DESKTOP: Right nav links + icons ── */}
-          <div className="desk-only" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+          <div className="desk-only nav-right" style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             {navItems.slice(3).map(item => (
               <div key={item.label} style={{ position: 'relative' }}
                 onMouseEnter={() => item.sub && openDrop(item.label)}
@@ -403,15 +419,49 @@ export default function Navbar() {
       </nav>
 
       <style>{`
-        /* Desktop: show desk-only, hide mob-only */
+        :root { --site-navbar-height: 93px; }
+
+        /* Desktop: show desk-only, hide mob-only, and lay the row out as
+           three real grid columns (left links / logo / right links) so the
+           logo has its own reserved space and can never sit under a link. */
         @media (min-width: 901px) {
           .desk-only { display: flex !important; }
           .mob-only  { display: none !important; }
+
+          .main-nav-row {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            column-gap: 16px;
+          }
+          .nav-left  { grid-column: 1; justify-self: start; min-width: 0; overflow: hidden; }
+          .nav-right { grid-column: 3; justify-self: end;   min-width: 0; overflow: hidden; }
+          .nav-logo {
+            grid-column: 2;
+            justify-self: center;
+            position: static !important;
+            left: auto !important;
+            transform: none !important;
+          }
         }
-        /* Mobile: hide desk-only, show mob-only */
+
+        /* Tighter spacing on smaller laptop widths so the links have room
+           to breathe without ever needing to creep under the logo. */
+        @media (min-width: 901px) and (max-width: 1240px) {
+          .nav-left, .nav-right { gap: 14px !important; }
+          .nav-logo img { height: 52px !important; }
+        }
+
+        /* Mobile: hide desk-only, show mob-only. Keep the original flex row
+           with the logo absolutely centered — unchanged from before. */
         @media (max-width: 900px) {
           .desk-only { display: none !important; }
           .mob-only  { display: flex !important; }
+          .main-nav-row { display: flex !important; justify-content: space-between; }
+
+          /* Sticky instead of fixed: the nav now takes up real space at the
+             top of the page (pushing the hero video down, no overlap) and
+             still pins itself to the top once you scroll past it. */
+          .site-navbar { position: sticky !important; top: 0 !important; }
         }
       `}</style>
     </>
