@@ -406,12 +406,12 @@ function Marquee() {
 /* ─────────────── LOOKBOOK GRID ─────────────── */
 function LookbookGrid() {
   const imgs = [
-    'https://image2url.com/r2/default/images/1771747791389-9ebdd379-7003-4659-bf79-275c820d9e3f.jpeg',
-    'https://image2url.com/r2/default/images/1771747833224-4eead591-0ec2-4141-be82-ec4fe223e206.jpeg',
-    'https://image2url.com/r2/default/images/1771747868528-36d1051b-7aaa-441e-9e20-f5df8f26a5d3.jpeg',
-    'https://image2url.com/r2/default/images/1771747928888-5ff44007-8c59-407c-8045-bfcbef3361d9.jpeg',
-    'https://image2url.com/r2/default/images/1771748007781-746730e0-316d-42f2-8cb2-21f2f96959c4.jpeg',
-    'https://image2url.com/r2/default/images/1771748085028-c380d445-dd4f-40db-89bd-b84dcc60a66a.jpeg',
+    'https://i.postimg.cc/28wgc3R1/Whats-App-Image-2026-10-06-at-1-48-26-PM.jpg',
+    'https://i.postimg.cc/W4dkY9zt/Whats-App-Image-2026-10-06-at-1-48-26-PM-(1).jpg',
+    'https://i.postimg.cc/sDf10nHq/Whats-App-Image-2026-10-06-at-1-48-27-PM.jpg',
+    'https://i.postimg.cc/0yMkLhYf/Whats-App-Image-2026-10-06-at-1-48-27-PM-(1).jpg',
+    'https://i.postimg.cc/nzHtcWmZ/Whats-App-Image-2026-10-06-at-1-48-27-PM-(2).jpg',
+    'https://i.postimg.cc/jSbxJ0MZ/Whats-App-Image-2026-10-06-at-1-48-28-PM.jpg',
   ];
   return (
     <section style={{ padding: '0 40px 80px', maxWidth: 1400, margin: '0 auto' }}>
